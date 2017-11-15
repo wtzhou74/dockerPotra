@@ -14,7 +14,7 @@ RUN install2.r --error \
     -r 'http://cran.rstudio.com' \
 	googleAuthR \
 	devtools \
-    && Rscript -e "devtools::install_github(c('wtzhou74/dockerPotra'))" \
+    && Rscript -e "devtools::install_github('wtzhou74/dockerPotra')" \
     ## clean up
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
