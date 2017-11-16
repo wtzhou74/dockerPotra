@@ -1,30 +1,40 @@
 library(shiny)
-library(ggplot2)
+library(googleAuthR)
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/urlshortener")
 
-function(input, output) {
+shorten_url <- function(url){
   
-  dataset <- reactive({
-    diamonds[sample(nrow(diamonds), input$sampleSize),]
+  body = list(
+    longUrl = url
+  )
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x$id)
+  
+  f(the_body = body)
+  
+}
+
+## server.R
+server <- function(input, output, session){
+  
+  ## Create access token and render login button
+  access_token <- callModule(googleAuth, "loginButton", approval_prompt = "force")
+  
+  short_url_output <- eventReactive(input$submit, {
+    ## wrap existing function with_shiny
+    ## pass the reactive token in shiny_access_token
+    ## pass other named arguments
+    with_shiny(f = shorten_url, 
+               shiny_access_token = access_token(),
+               url=input$url)
+    
   })
   
-  output$plot <- renderPlot({
+  output$short_url <- renderText({
     
-    p <- ggplot(dataset(), aes_string(x=input$x, y=input$y)) + geom_point()
+    short_url_output()
     
-    if (input$color != 'None')
-      p <- p + aes_string(color=input$color)
-    
-    facets <- paste(input$facet_row, '~', input$facet_col)
-    if (facets != '. ~ .')
-      p <- p + facet_grid(facets)
-    
-    if (input$jitter)
-      p <- p + geom_jitter()
-    if (input$smooth)
-      p <- p + geom_smooth()
-    
-    print(p)
-    
-  }, height=700)
-  
+  })
 }

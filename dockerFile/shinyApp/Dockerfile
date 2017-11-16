@@ -1,5 +1,5 @@
 FROM rocker/shiny
-MAINTAINER Wentao Zhou
+MAINTAINER Mark Edmondson (r@sunholo.com)
 
 # install R package dependencies
 RUN apt-get update && apt-get install -y \
