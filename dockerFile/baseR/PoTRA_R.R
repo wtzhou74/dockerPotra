@@ -1,3 +1,4 @@
+print("Hello Potra")
 PoTRA.Ftest <- function(mydata,genelist,Num.sample.normal,Num.sample.case,Pathway.database) {
   
   require(BiocGenerics)
