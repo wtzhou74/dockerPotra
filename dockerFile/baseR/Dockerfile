@@ -2,7 +2,7 @@ FROM r-base:latest
 
 ## Install packages from CRAN
 RUN install2.r --error \
-	-r "https://bioconductor.org/biocLite.R" \
+	-r "http://bioconductor.org/biocLite.R" \
 	BiocGenerics \
 	graph \
 	graphite \
