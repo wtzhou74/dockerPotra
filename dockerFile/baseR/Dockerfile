@@ -1,12 +1,4 @@
-FROM r-base:latest
-
-## Install packages from CRAN
-RUN install2.r --error \
-	-r "http://bioconductor.org/biocLite.R" \
-	BiocGenerics \
-	graph \
-	graphite \
-	igraph
+FROM bioconductor/release_base2s
 	
 COPY . /usr/local/src/myscripts
 WORKDIR /usr/local/src/myscripts
