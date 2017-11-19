@@ -1,8 +1,6 @@
 FROM r-base:latest
 
-# install R package dependencies
-RUN apt-get update && apt-get install -y \
-    bioconductor/release_base2:latest
+RUN Rscript -e 'source("https://bioconductor.org/biocLite.R");biocLite(c("BiocStyle","graph","graphite","igraph"))'
 	
 COPY . /usr/local/src/myscripts
 WORKDIR /usr/local/src/myscripts
